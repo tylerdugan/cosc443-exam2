@@ -133,6 +133,11 @@ public class Creature {
 		
 		Tile tile = world.tile(x+mx, y+my, z+mz);
 		
+		mzCheck(mz, tile);
+		
+		mzCreature(mx, my, mz, tile);
+	}
+	public void mzCheck(int mz, Tile tile) {
 		if (mz == -1){
 			if (tile == Tile.STAIRS_DOWN) {
 				doAction("walk up the stairs to level %d", z+mz+1);
@@ -148,7 +153,8 @@ public class Creature {
 				return;
 			}
 		}
-		
+	}
+	public void mzCreature(int mx, int my, int mz, Tile tile) {
 		Creature other = world.creature(x+mx, y+my, z+mz);
 		
 		modifyFood(-1);

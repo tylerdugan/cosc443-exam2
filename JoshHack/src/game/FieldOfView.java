@@ -32,6 +32,10 @@ public class FieldOfView {
 		depth = wz;
 		visible = new boolean[world.width()][world.height()];
 		
+		updateLoo(wx, wy, wz, r);
+	}
+
+	public void updateLoo(int wx, int wy, int wz, int r) {
 		for (int x = -r; x < r; x++){
 			for (int y = -r; y < r; y++){
 				if (x*x + y*y > r*r)
@@ -40,15 +44,19 @@ public class FieldOfView {
 				if (wx + x < 0 || wx + x >= world.width() || wy + y < 0 || wy + y >= world.height())
 					continue;
 				
-				for (Point p : new Line(wx, wy, wx + x, wy + y)){
-					Tile tile = world.tile(p.x, p.y, wz);
-					visible[p.x][p.y] = true;
-					tiles[p.x][p.y][wz] = tile; 
-					
-					if (!tile.isGround())
-						break;
-				}
+				tileVisible(wx, wy, wz, x, y);
 			}
+		}
+	}
+
+	public void tileVisible(int wx, int wy, int wz, int x, int y) {
+		for (Point p : new Line(wx, wy, wx + x, wy + y)){
+			Tile tile = world.tile(p.x, p.y, wz);
+			visible[p.x][p.y] = true;
+			tiles[p.x][p.y][wz] = tile; 
+			
+			if (!tile.isGround())
+				break;
 		}
 	}
 }
